@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { playlist } from "./playlist";
-import { getVideoId } from "../utils/youtubeHelpers";
 
 declare global {
   interface Window {
@@ -19,6 +18,11 @@ export function useYouTubePlayer() {
 
   const playerRef = useRef<any>(null);
   const currentSong = playlist[currentIndex];
+
+  const getVideoId = (url: string) => {
+    const match = url.match(/[?&]v=([^&]+)/);
+    return match ? match[1] : url;
+  };
 
   useEffect(() => {
     if (!window.YT) {
