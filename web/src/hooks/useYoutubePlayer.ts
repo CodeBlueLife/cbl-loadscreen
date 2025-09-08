@@ -71,26 +71,30 @@ export function useYouTubePlayer() {
   };
 
   const playNext = () => {
+    setPlayedIndexes((prev) => [...prev, currentIndex]);
+
     const remaining = playlist
       .map((_, i) => i)
-      .filter((i) => i !== currentIndex && !playedIndexes.includes(i));
+      .filter((i) => i !== currentIndex);
 
     const nextIndex =
       remaining.length === 0
-        ? Math.floor(Math.random() * playlist.length)
+        ? 0
         : remaining[Math.floor(Math.random() * remaining.length)];
 
-    setPlayedIndexes((prev) => [...prev, currentIndex]);
     setCurrentIndex(nextIndex);
     setIsPlaying(true);
   };
 
   const playPrev = () => {
-    if (playedIndexes.length === 0) return;
-    const lastIndex = playedIndexes[playedIndexes.length - 1];
-    setPlayedIndexes((prev) => prev.slice(0, prev.length - 1));
-    setCurrentIndex(lastIndex);
-    setIsPlaying(true);
+    setPlayedIndexes((prev) => {
+      if (prev.length === 0) return prev;
+
+      const lastIndex = prev[prev.length - 1];
+      setCurrentIndex(lastIndex);
+      setIsPlaying(true);
+      return prev.slice(0, prev.length - 1);
+    });
   };
 
   const setAudioVolume = (v: number) => {
