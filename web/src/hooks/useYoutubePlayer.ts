@@ -14,7 +14,7 @@ export function useYouTubePlayer() {
   );
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [playedIndexes, setPlayedIndexes] = useState<number[]>([]);
-  const [volume, setVolume] = useState<number>(0.5);
+  const [volume, setVolume] = useState<number>(0.025);
 
   const playerRef = useRef<any>(null);
   const currentSong = playlist[currentIndex];
