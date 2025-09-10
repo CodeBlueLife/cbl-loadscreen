@@ -1,1 +1,8 @@
-console.log("./src/client/index.ts")
+var playerSpawned = false;
+
+on("playerSpawned", () => {
+  if (!playerSpawned) {
+    ShutdownLoadingScreenNui();
+    playerSpawned = true;
+  }
+});
