@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          bun version ${{ github.ref_name }} --no-git-tag
+          npm version ${{ github.ref_name }} --no-git-tag
 
       - name: Run build
         run: bun run build
