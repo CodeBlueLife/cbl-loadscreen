@@ -11,7 +11,7 @@
       "~/*": ["../../*"],
       "@common/*": ["../src/common/*"]
     },
-    "types": ["@types/node", "./nui.d.ts"],
+    "types": ["@types/node", "@types/youtube", "./nui.d.ts"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
