@@ -51,7 +51,7 @@ jobs:
 
       - name: Bundle files
         run: |
-          zip -r ${{ github.event.repository.name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lockb" "./package.json" "./eslint.config.js"
+          zip -r ${{ github.event.repository.name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lock" "./package.json" "./eslint.config.js"
 
       - name: Create Release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
