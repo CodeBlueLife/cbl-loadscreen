@@ -55,10 +55,12 @@ export function useYouTubeAudio(
 
   const loadVideo = useCallback(
     (index: number) => {
-      if (!playerRef.current) return;
+      const player = playerRef.current;
+      if (!player) return;
+
       const videoId = getVideoId(playlist[index].songURL);
-      playerRef.current.loadVideoById(videoId);
-      playerRef.current.setVolume(volume);
+      player.loadVideoById(videoId);
+      player.setVolume(volume);
       setCurrentIndex(index);
     },
     [playlist, volume]
@@ -100,19 +102,11 @@ export function useYouTubeAudio(
     playerRef.current?.setVolume(newVolume);
   }, []);
 
-  const handleSeek = useCallback((newTime: number) => {
-    playerRef.current?.seekTo(newTime, true);
-    setCurrentTime(newTime);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (playerRef.current) {
-        setCurrentTime(playerRef.current.getCurrentTime());
-        setDuration(playerRef.current.getDuration());
-      }
-    }, 500);
-    return () => clearInterval(interval);
+  const handleSeek = useCallback((time: number) => {
+    if (playerRef.current && typeof playerRef.current.seekTo === "function") {
+      playerRef.current.seekTo(time, true);
+      setCurrentTime(time);
+    }
   }, []);
 
   useEffect(() => {
@@ -120,8 +114,8 @@ export function useYouTubeAudio(
       if (playerRef.current) return playerRef.current;
 
       const player = new YT.Player(containerRef.current!, {
-        height: "1",
-        width: "1",
+        height: "0",
+        width: "0",
         videoId: getVideoId(currentSong.songURL),
         playerVars: {
           autoplay: 1,
@@ -154,6 +148,18 @@ export function useYouTubeAudio(
       createPlayer();
     }
   }, [currentSong.songURL, next, play, volume, handleStateChange]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const player = playerRef.current;
+      if (player && typeof player.getCurrentTime === "function") {
+        setCurrentTime(player.getCurrentTime());
+        setDuration(player.getDuration());
+      }
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return {
     containerRef,

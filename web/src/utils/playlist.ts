@@ -6,8 +6,8 @@ export interface Song {
 
 export const playlist: Song[] = [
   {
-    songArtist: "Jordy Medina",
-    songName: "Next to You",
-    songURL: "https://www.youtube.com/watch?v=oOoasUKnko4",
+    songArtist: "Cartoon, Jéja",
+    songName: "On & On",
+    songURL: "https://www.youtube.com/watch?v=K4DyBUG242c",
   },
 ];
