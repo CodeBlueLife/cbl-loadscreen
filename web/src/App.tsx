@@ -1,5 +1,12 @@
 import { useYouTubeAudio } from "./hooks/useYouTubeAudio";
-import { Volume2, Play, Pause, SkipBack, SkipForward } from "lucide-react";
+import {
+  Volume2,
+  VolumeX,
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+} from "lucide-react";
 
 export default function App() {
   const {
@@ -31,7 +38,7 @@ export default function App() {
   const togglePlay = () => (isPlaying ? pause() : play());
 
   return (
-    <div className="relative h-screen w-screen bg-black text-white overflow-hidden">
+    <div className="relative w-full h-screen bg-black">
       {/* Background video */}
       <video
         src="https://s3.venoxity.dev/LoadingMovie.mp4"
@@ -42,96 +49,95 @@ export default function App() {
         preload="auto"
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
       />
+      <div className="absolute inset-0 bg-black/40" />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/20" />
-
-      {/* Music controls */}
-      <div className="absolute bottom-4 left-4 flex flex-col gap-1 w-56 text-xs z-50">
-        <div className="p-2 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)] flex flex-col gap-1">
-          {/* Song info */}
-          <div className="px-2 py-1 bg-gray-800/30 rounded shadow-md overflow-hidden">
-            <div className="text-sm font-semibold text-white drop-shadow-md truncate">
-              {currentSong?.songName || "No song playing"}
-            </div>
-            <div className="text-xs text-gray-300 truncate">
-              {currentSong?.songArtist || ""}
-            </div>
+      {/* Player container bottom-left */}
+      <div className="absolute bottom-4 left-4 w-64 flex flex-col p-4 bg-slate-900/70 border border-slate-700/40 backdrop-blur-md rounded-2xl text-white">
+        {/* Song Info */}
+        <div className="flex flex-col gap-0.5">
+          <div className="text-sm font-semibold truncate">
+            {currentSong?.songName || "No song playing"}
           </div>
+          <div className="text-xs text-gray-400 truncate">
+            {currentSong?.songArtist || ""}
+          </div>
+        </div>
 
-          {/* Progress bar */}
-          <div className="relative flex items-center mt-1">
-            <span className="absolute left-0 text-[9px] text-gray-200">
-              {formatTime(currentTime)}
-            </span>
-            <div className="flex-1 mx-6">
-              <input
-                type="range"
-                min={0}
-                max={duration || 0}
-                value={currentTime}
-                onChange={(e) => handleSeek(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${
-                    (currentTime / (duration || 1)) * 100
-                  }%, #94a3b8 ${
-                    (currentTime / (duration || 1)) * 100
-                  }%, #94a3b8 100%)`,
-                }}
-              />
+        {/* Middle section: Progress + Controls */}
+        <div className="flex flex-col flex-1 justify-center mt-3">
+          {/* Progress + Timestamps */}
+          <div className="flex flex-col">
+            <input
+              type="range"
+              min={0}
+              max={duration || 0}
+              value={currentTime}
+              onChange={(e) => handleSeek(Number(e.target.value))}
+              className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+              style={{
+                background:
+                  duration > 0
+                    ? `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${
+                        (currentTime / duration) * 100
+                      }%, #6b7280 ${
+                        (currentTime / duration) * 100
+                      }%, #6b7280 100%)`
+                    : "#6b7280",
+              }}
+            />
+            <div className="flex justify-between text-[9px] text-gray-200 mt-1">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
             </div>
-            <span className="absolute right-0 text-[9px] text-gray-200">
-              {formatTime(duration)}
-            </span>
           </div>
 
           {/* Controls */}
-          <div className="flex items-center gap-1 mt-1 justify-center">
-            {/* Volume */}
-            <div className="flex items-center gap-1 flex-1">
-              <Volume2 size={12} color={ACCENT_COLOR} />
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={volume}
-                onChange={(e) => handleVolumeChange(Number(e.target.value))}
-                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{
-                  background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #94a3b8 ${volume}%, #94a3b8 100%)`,
-                }}
-              />
-            </div>
-
-            {/* Previous */}
+          <div className="flex items-center justify-center gap-2">
             <button
               onClick={prev}
-              className="flex items-center justify-center w-5 h-5 bg-gray-800/40 hover:bg-gray-800/30 rounded-full shadow-[0_0_8px_rgba(96,165,250,0.5)] backdrop-blur-md"
+              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
             >
-              <SkipBack size={12} color={ACCENT_COLOR} />
+              <SkipBack size={14} color={ACCENT_COLOR} />
             </button>
-
-            {/* Play/Pause */}
             <button
               onClick={togglePlay}
-              className="flex items-center justify-center w-5 h-5 bg-gray-800/40 hover:bg-gray-800/30 rounded-full shadow-[0_0_8px_rgba(96,165,250,0.5)] backdrop-blur-md"
+              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
             >
               {isPlaying ? (
-                <Pause size={12} color={ACCENT_COLOR} />
+                <Pause size={14} color={ACCENT_COLOR} />
               ) : (
-                <Play size={12} color={ACCENT_COLOR} />
+                <Play size={14} color={ACCENT_COLOR} />
               )}
             </button>
-
-            {/* Next */}
             <button
               onClick={next}
-              className="flex items-center justify-center w-5 h-5 bg-gray-800/40 hover:bg-gray-800/30 rounded-full shadow-[0_0_8px_rgba(96,165,250,0.5)] backdrop-blur-md"
+              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
             >
-              <SkipForward size={12} color={ACCENT_COLOR} />
+              <SkipForward size={14} color={ACCENT_COLOR} />
             </button>
           </div>
+        </div>
+
+        {/* Volume */}
+        <div className="flex items-center gap-2 mt-3">
+          <button>
+            {volume === 0 ? (
+              <VolumeX size={12} color={ACCENT_COLOR} />
+            ) : (
+              <Volume2 size={12} color={ACCENT_COLOR} />
+            )}
+          </button>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={volume}
+            onChange={(e) => handleVolumeChange(Number(e.target.value))}
+            className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #6b7280 ${volume}%, #6b7280 100%)`,
+            }}
+          />
         </div>
 
         {/* Container for players */}
@@ -141,7 +147,6 @@ export default function App() {
       <style>{`
         input[type='range']::-webkit-slider-thumb {
           -webkit-appearance: none;
-          appearance: none;
           width: 12px;
           height: 12px;
           border-radius: 50%;
