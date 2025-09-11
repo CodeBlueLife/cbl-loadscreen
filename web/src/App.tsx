@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useYouTubeAudio } from "./hooks/useYouTubeAudio";
 import {
   Volume2,
@@ -25,6 +26,17 @@ export default function App() {
   } = useYouTubeAudio();
 
   const ACCENT_COLOR = "#60A5FA";
+  const [centerProgress, setCenterProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCenterProgress((prev) => {
+        if (prev < 100) return prev + 1;
+        return prev;
+      });
+    }, 200);
+    return () => clearInterval(interval);
+  }, []);
 
   const formatTime = (time: number) => {
     if (!time || isNaN(time)) return "0:00";
@@ -93,7 +105,7 @@ export default function App() {
 
           {/* Playback + Volume */}
           <div className="flex items-center gap-2 mt-3 w-full">
-            {/* Playback buttons: 40% */}
+            {/* Playback buttons */}
             <div className="flex items-center gap-1 flex-[0.4] justify-center flex-shrink-0">
               <button
                 onClick={prev}
@@ -119,7 +131,7 @@ export default function App() {
               </button>
             </div>
 
-            {/* Volume control: 60% */}
+            {/* Volume control */}
             <div className="flex items-center gap-2 flex-[0.6] min-w-0">
               <button className="flex-shrink-0 p-1.5">
                 {volume === 0 ? (
@@ -143,37 +155,28 @@ export default function App() {
           </div>
         </div>
 
-        {/* Container for players */}
         <div ref={containerRef}></div>
       </div>
 
-      <style>{`
-        input[type='range']::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: ${ACCENT_COLOR};
-          box-shadow: 0 0 4px ${ACCENT_COLOR}, 0 0 8px ${ACCENT_COLOR}50;
-          transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
-        input[type='range']::-webkit-slider-thumb:hover {
-          transform: scale(1.2);
-          box-shadow: 0 0 8px ${ACCENT_COLOR}, 0 0 12px ${ACCENT_COLOR}80;
-        }
-        input[type='range']::-moz-range-thumb {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: ${ACCENT_COLOR};
-          box-shadow: 0 0 4px ${ACCENT_COLOR}, 0 0 8px ${ACCENT_COLOR}50;
-          transition: transform 0.1s ease, box-shadow 0.1s ease;
-        }
-        input[type='range']::-moz-range-thumb:hover {
-          transform: scale(1.2);
-          box-shadow: 0 0 8px ${ACCENT_COLOR}, 0 0 12px ${ACCENT_COLOR}80;
-        }
-      `}</style>
+      {/* Center-bottom custom progress bar */}
+      <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-1/3 flex flex-col items-center">
+        <div className="flex justify-between w-full text-[13px] text-gray-200 mb-2 font-bold">
+          <span>The city is now loading...</span>
+          <span>{centerProgress}%</span>
+        </div>
+
+        <input
+          type="range"
+          min={0}
+          max={100}
+          value={centerProgress}
+          disabled
+          className="center-progress w-full h-4 rounded-full appearance-none"
+          style={{
+            background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${centerProgress}%, #6b7280 ${centerProgress}%, #6b7280 100%)`,
+          }}
+        />
+      </div>
     </div>
   );
 }

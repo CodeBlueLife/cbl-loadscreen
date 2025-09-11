@@ -1,3 +1,60 @@
+/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Default slider thumbs */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #60a5fa;
+  box-shadow: 0 0 4px rgba(96, 165, 250, 1), 0 0 8px rgba(96, 165, 250, 0.3);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(96, 165, 250, 1), 0 0 12px rgba(96, 165, 250, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #60a5fa;
+  box-shadow: 0 0 4px rgba(96, 165, 250, 1), 0 0 8px rgba(96, 165, 250, 0.3);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(96, 165, 250, 1), 0 0 12px rgba(96, 165, 250, 0.5);
+}
+
+/* Center progress bar */
+.center-progress {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  height: 16px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #60a5fa 0%, #6b7280 0%);
+  pointer-events: none; /* disables interaction completely */
+}
+
+/* Remove thumb completely */
+.center-progress::-webkit-slider-thumb {
+  display: none;
+}
+
+.center-progress::-moz-range-thumb {
+  display: none;
+}
+
+.center-progress::-ms-thumb {
+  display: none;
+}
