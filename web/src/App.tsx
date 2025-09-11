@@ -1,4 +1,4 @@
-import { useAudioPlayer } from "./hooks/useAudioPlayer";
+import { useYouTubeAudio } from "./hooks/useYouTubeAudio";
 import { Volume2, Play, Pause, SkipBack, SkipForward } from "lucide-react";
 
 export default function App() {
@@ -15,7 +15,7 @@ export default function App() {
     volume,
     handleSeek,
     handleVolumeChange,
-  } = useAudioPlayer();
+  } = useYouTubeAudio();
 
   const ACCENT_COLOR = "#60A5FA";
 
