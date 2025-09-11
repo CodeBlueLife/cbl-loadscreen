@@ -133,11 +133,14 @@ export default function App() {
 
             {/* Volume control */}
             <div className="flex items-center gap-2 flex-[0.6] min-w-0">
-              <button className="flex-shrink-0 p-1.5">
+              <button className="flex-shrink-0 p-1.5 group">
                 {volume === 0 ? (
-                  <VolumeX size={14} color={ACCENT_COLOR} />
+                  <VolumeX
+                    size={14}
+                    className="text-gray-400 group-hover:text-[#60A5FA] transition-colors duration-200"
+                  />
                 ) : (
-                  <Volume2 size={14} color={ACCENT_COLOR} />
+                  <Volume2 size={14} className="text-[#60A5FA]" />
                 )}
               </button>
               <input
@@ -160,22 +163,20 @@ export default function App() {
 
       {/* Center-bottom custom progress bar */}
       <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-1/3 flex flex-col items-center">
-        <div className="flex justify-between w-full text-[13px] text-gray-200 mb-2 font-bold">
+        <div className="flex justify-between w-full text-sm text-gray-200 mb-2 font-semibold">
           <span>The city is now loading...</span>
           <span>{centerProgress}%</span>
         </div>
 
-        <input
-          type="range"
-          min={0}
-          max={100}
-          value={centerProgress}
-          disabled
-          className="center-progress w-full h-4 rounded-full appearance-none"
-          style={{
-            background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${centerProgress}%, #6b7280 ${centerProgress}%, #6b7280 100%)`,
-          }}
-        />
+        <div className="w-full h-4 bg-slate-900/80 border border-slate-700 rounded-full backdrop-blur-md overflow-hidden relative shadow-lg">
+          <div
+            className="h-full rounded-full transition-all duration-300 shadow-[0_0_12px_#60A5FA,0_0_24px_#60A5FA]"
+            style={{
+              width: `${centerProgress}%`,
+              background: `linear-gradient(90deg, #60A5FA, #3B82F6)`,
+            }}
+          />
+        </div>
       </div>
     </div>
   );
