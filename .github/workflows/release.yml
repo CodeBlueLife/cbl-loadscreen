@@ -57,11 +57,11 @@ jobs:
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         id: auto_release
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: "${{ secrets.GH_PUSH_TOKEN }}"
           title: "${{ env.RELEASE_VERSION }}"
           prerelease: false
           files: ${{ github.event.repository.name }}.zip
 
         env:
           CI: false
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PUSH_TOKEN: ${{ secrets.GH_PUSH_TOKEN }}
