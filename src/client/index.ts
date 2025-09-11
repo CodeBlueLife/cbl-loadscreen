@@ -1,4 +1,4 @@
-var playerSpawned = false;
+let playerSpawned = false;
 
 on("playerSpawned", () => {
   if (!playerSpawned) {
