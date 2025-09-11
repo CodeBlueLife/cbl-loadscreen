@@ -91,53 +91,56 @@ export default function App() {
             </div>
           </div>
 
-          {/* Controls */}
-          <div className="flex items-center justify-center gap-2">
-            <button
-              onClick={prev}
-              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
-            >
-              <SkipBack size={14} color={ACCENT_COLOR} />
-            </button>
-            <button
-              onClick={togglePlay}
-              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
-            >
-              {isPlaying ? (
-                <Pause size={14} color={ACCENT_COLOR} />
-              ) : (
-                <Play size={14} color={ACCENT_COLOR} />
-              )}
-            </button>
-            <button
-              onClick={next}
-              className="p-1 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-full"
-            >
-              <SkipForward size={14} color={ACCENT_COLOR} />
-            </button>
-          </div>
-        </div>
+          {/* Playback + Volume */}
+          <div className="flex items-center gap-2 mt-3 w-full">
+            {/* Playback buttons: 40% */}
+            <div className="flex items-center gap-1 flex-[0.4] justify-center flex-shrink-0">
+              <button
+                onClick={prev}
+                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
+              >
+                <SkipBack size={14} color={ACCENT_COLOR} />
+              </button>
+              <button
+                onClick={togglePlay}
+                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
+              >
+                {isPlaying ? (
+                  <Pause size={14} color={ACCENT_COLOR} />
+                ) : (
+                  <Play size={14} color={ACCENT_COLOR} />
+                )}
+              </button>
+              <button
+                onClick={next}
+                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
+              >
+                <SkipForward size={14} color={ACCENT_COLOR} />
+              </button>
+            </div>
 
-        {/* Volume */}
-        <div className="flex items-center gap-2 mt-3">
-          <button>
-            {volume === 0 ? (
-              <VolumeX size={12} color={ACCENT_COLOR} />
-            ) : (
-              <Volume2 size={12} color={ACCENT_COLOR} />
-            )}
-          </button>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => handleVolumeChange(Number(e.target.value))}
-            className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer"
-            style={{
-              background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #6b7280 ${volume}%, #6b7280 100%)`,
-            }}
-          />
+            {/* Volume control: 60% */}
+            <div className="flex items-center gap-2 flex-[0.6] min-w-0">
+              <button className="flex-shrink-0 p-1.5">
+                {volume === 0 ? (
+                  <VolumeX size={14} color={ACCENT_COLOR} />
+                ) : (
+                  <Volume2 size={14} color={ACCENT_COLOR} />
+                )}
+              </button>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={volume}
+                onChange={(e) => handleVolumeChange(Number(e.target.value))}
+                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer min-w-0"
+                style={{
+                  background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #6b7280 ${volume}%, #6b7280 100%)`,
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Container for players */}
