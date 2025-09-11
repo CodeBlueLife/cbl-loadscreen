@@ -1,4 +1,4 @@
-import { useYouTubeAudio } from "./hooks/useYouTubeAudio";
+import { useAudioPlayer } from "./hooks/useAudioPlayer";
 import { Volume2, Play, Pause, SkipBack, SkipForward } from "lucide-react";
 
 export default function App() {
@@ -13,13 +13,14 @@ export default function App() {
     currentTime,
     duration,
     volume,
-    handleVolumeChange,
     handleSeek,
-  } = useYouTubeAudio();
+    handleVolumeChange,
+  } = useAudioPlayer();
 
   const ACCENT_COLOR = "#60A5FA";
 
   const formatTime = (time: number) => {
+    if (!time || isNaN(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60)
       .toString()
@@ -31,7 +32,7 @@ export default function App() {
 
   return (
     <div className="relative h-screen w-screen bg-black text-white overflow-hidden">
-      {/* Video */}
+      {/* Background video */}
       <video
         src="https://s3.venoxity.dev/LoadingMovie.mp4"
         autoPlay
@@ -42,19 +43,19 @@ export default function App() {
         className="absolute top-0 left-0 w-full h-full object-cover z-0"
       />
 
-      {/* Lighter overlay */}
+      {/* Overlay */}
       <div className="absolute inset-0 bg-black/20" />
 
-      {/* Bottom-left music controls */}
+      {/* Music controls */}
       <div className="absolute bottom-4 left-4 flex flex-col gap-1 w-56 text-xs z-50">
         <div className="p-2 bg-gray-800/50 backdrop-blur-md rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)] flex flex-col gap-1">
           {/* Song info */}
-          <div className="px-2 py-1 bg-gray-800/30 rounded shadow-md">
+          <div className="px-2 py-1 bg-gray-800/30 rounded shadow-md overflow-hidden">
             <div className="text-sm font-semibold text-white drop-shadow-md truncate">
-              {currentSong.songName}
+              {currentSong?.songName || "No song playing"}
             </div>
-            <div className="text-xs text-gray-200 drop-shadow-md truncate">
-              {currentSong.songArtist}
+            <div className="text-xs text-gray-300 truncate">
+              {currentSong?.songArtist || ""}
             </div>
           </div>
 
@@ -88,21 +89,19 @@ export default function App() {
           {/* Controls */}
           <div className="flex items-center gap-1 mt-1 justify-center">
             {/* Volume */}
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-1">
               <Volume2 size={12} color={ACCENT_COLOR} />
-              <div className="flex-1">
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={volume}
-                  onChange={(e) => handleVolumeChange(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{
-                    background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #94a3b8 ${volume}%, #94a3b8 100%)`,
-                  }}
-                />
-              </div>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={volume}
+                onChange={(e) => handleVolumeChange(Number(e.target.value))}
+                className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                style={{
+                  background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #94a3b8 ${volume}%, #94a3b8 100%)`,
+                }}
+              />
             </div>
 
             {/* Previous */}
@@ -135,6 +134,7 @@ export default function App() {
           </div>
         </div>
 
+        {/* Container for players */}
         <div ref={containerRef}></div>
       </div>
 
