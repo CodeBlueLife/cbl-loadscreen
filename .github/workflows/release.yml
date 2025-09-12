@@ -69,7 +69,7 @@ jobs:
       # Bundle files into a zip
       - name: Bundle files
         run: |
-          zip -r ${{ github.event.repository.name }}.${{ github.ref_name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lock" "./package.json" "./biome.json"
+          zip -r ${{ github.event.repository.name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lock" "./package.json" "./biome.json"
 
       # Create release using the zip
       - name: Create Release
@@ -79,7 +79,7 @@ jobs:
           repo_token: "${{ secrets.GH_PUSH_TOKEN }}"
           title: "${{ github.ref_name }}"
           prerelease: false
-          files: ${{ github.event.repository.name }}.${{ github.ref_name }}.zip
+          files: ${{ github.event.repository.name }}.zip
 
         env:
           CI: false
