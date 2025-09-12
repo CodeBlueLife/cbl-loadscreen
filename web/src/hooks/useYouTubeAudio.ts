@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from "react";
-import { playlist as importedPlaylist, Song } from "../utils/playlist";
+import { loadPlaylist, Song } from "../utils/playlist";
 
 declare global {
   interface Window {
@@ -15,10 +15,8 @@ type PlayerState =
   | "buffering"
   | "cued";
 
-export function useYouTubeAudio(
-  playlist: Song[] = importedPlaylist,
-  initialVolume = 20
-) {
+export function useYouTubeAudio(initialVolume = 20) {
+  const [playlist, setPlaylist] = useState<Song[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -27,6 +25,7 @@ export function useYouTubeAudio(
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<YT.Player | null>(null);
+
   const currentSong = playlist[currentIndex];
 
   const getVideoId = (url: string) => {
@@ -56,7 +55,7 @@ export function useYouTubeAudio(
   const loadVideo = useCallback(
     (index: number) => {
       const player = playerRef.current;
-      if (!player) return;
+      if (!player || !playlist[index]) return;
 
       const videoId = getVideoId(playlist[index].songURL);
       player.loadVideoById(videoId);
@@ -71,22 +70,24 @@ export function useYouTubeAudio(
   const stop = useCallback(() => playerRef.current?.stopVideo(), []);
 
   const next = useCallback(() => {
+    if (playlist.length === 0) return;
     setCurrentIndex((prev) => {
       const nextIndex = (prev + 1) % playlist.length;
       loadVideo(nextIndex);
       play();
       return nextIndex;
     });
-  }, [loadVideo, play, playlist.length]);
+  }, [playlist.length, loadVideo, play]);
 
   const prev = useCallback(() => {
+    if (playlist.length === 0) return;
     setCurrentIndex((prev) => {
       const prevIndex = prev === 0 ? playlist.length - 1 : prev - 1;
       loadVideo(prevIndex);
       play();
       return prevIndex;
     });
-  }, [loadVideo, play, playlist.length]);
+  }, [playlist.length, loadVideo, play]);
 
   const handleStateChange = useCallback(
     (ytState: YT.PlayerState) => {
@@ -110,6 +111,16 @@ export function useYouTubeAudio(
   }, []);
 
   useEffect(() => {
+    const load = async () => {
+      const songs = await loadPlaylist();
+      setPlaylist(songs);
+    };
+    load();
+  }, []);
+
+  useEffect(() => {
+    if (!currentSong) return;
+
     const createPlayer = () => {
       if (playerRef.current) return playerRef.current;
 
@@ -147,7 +158,7 @@ export function useYouTubeAudio(
     } else if (window.YT) {
       createPlayer();
     }
-  }, [currentSong.songURL, next, play, volume, handleStateChange]);
+  }, [currentSong, volume, play, handleStateChange, next]);
 
   useEffect(() => {
     const interval = setInterval(() => {
