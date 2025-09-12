@@ -29,7 +29,7 @@ createBuilder(
     },
   ],
   async (outfiles) => {
-    const files = await getFiles("dist/web");
+    const files = await getFiles("dist/web", "static");
     await createFxmanifest({
       client_scripts: [outfiles.client],
       server_scripts: [outfiles.server],
