@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "paths": {
       "~/*": ["../../*"],
+      "@/*": ["./src/*"],
       "@common/*": ["../src/common/*"]
     },
     "types": ["@types/node", "@types/youtube", "./nui.d.ts"],
