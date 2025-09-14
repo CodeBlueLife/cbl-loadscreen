@@ -1,7 +1,8 @@
 import { useState } from "react";
+import ControlsBar from "./components/app/ControlsBar";
 import LoadingProgress from "./components/app/LoadingProgress";
 import MediaPlayer from "./components/app/MediaPlayer";
-import ControlsBar from "./components/app/ControlsBar";
+import BackgroundVideo from "../LoadingMovie.mp4";
 
 export default function App() {
   const [showPlayer, setShowPlayer] = useState(false);
@@ -9,7 +10,7 @@ export default function App() {
   return (
     <div className="relative w-full h-screen bg-black">
       <video
-        src="https://s3.venoxity.dev/LoadingMovie.mp4"
+        src={BackgroundVideo}
         autoPlay
         loop
         muted
