@@ -5,28 +5,26 @@ export default function LoadingProgress() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev < 100) return prev + 1;
-        return prev;
-      });
+      setProgress((prev) => (prev < 100 ? prev + 1 : prev));
     }, 200);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-1/3 flex flex-col items-center">
-      <div className="flex justify-between w-full text-sm text-gray-200 mb-2 font-semibold">
-        <span>The city is now loading...</span>
-        <span>{progress}%</span>
+    <div className="flex flex-col w-full">
+      <div className="mb-2">
+        <span className="text-2xl font-semibold text-white tracking-wide">
+          LOADING... {progress}%
+        </span>
+        <span className="text-sm text-slate-400 block mt-1">
+          PRESS SPACE TO PAUSE MUSIC
+        </span>
       </div>
-
-      <div className="w-full h-4 bg-slate-900/80 border border-slate-700 rounded-full backdrop-blur-md overflow-hidden relative shadow-lg">
+      
+      <div className="h-4 bg-slate-900/80 border border-slate-700/50 rounded-lg overflow-hidden relative">
         <div
-          className="h-full rounded-full transition-all duration-300 shadow-[0_0_12px_#60A5FA,0_0_24px_#60A5FA]"
-          style={{
-            width: `${progress}%`,
-            background: `linear-gradient(90deg, #60A5FA, #3B82F6)`,
-          }}
+          className="h-full rounded-lg transition-all duration-300 bg-gradient-to-r from-[#60A5FA] via-[#3B82F6] to-[#60A5FA]"
+          style={{ width: `${progress}%` }}
         />
       </div>
     </div>
