@@ -1,7 +1,11 @@
-import MediaPlayer from "./components/app/MediaPlayer";
+import { useState } from "react";
 import LoadingProgress from "./components/app/LoadingProgress";
+import MediaPlayer from "./components/app/MediaPlayer";
+import ControlsBar from "./components/app/ControlsBar";
 
 export default function App() {
+  const [showPlayer, setShowPlayer] = useState(false);
+
   return (
     <div className="relative w-full h-screen bg-black">
       <video
@@ -11,12 +15,23 @@ export default function App() {
         muted
         playsInline
         preload="auto"
-        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 w-full h-full object-cover z-0"
       />
       <div className="absolute inset-0 bg-black/40" />
-
-      <MediaPlayer />
-      <LoadingProgress />
+      <div className="relative z-10 flex min-h-screen">
+        <div className="flex-1 relative">
+          <div className="absolute bottom-10 w-full flex justify-center">
+            <div className="relative w-[80%] max-w-[1000px]">
+              <LoadingProgress />
+              <ControlsBar
+                showPlayer={showPlayer}
+                togglePlayer={() => setShowPlayer((p) => !p)}
+              />
+              <MediaPlayer showPlayer={showPlayer} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
