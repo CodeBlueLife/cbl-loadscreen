@@ -7,8 +7,13 @@ import {
   SkipBack,
   SkipForward,
 } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 
-export default function MediaPlayer() {
+interface MediaPlayerProps {
+  showPlayer: boolean;
+}
+
+export default function MediaPlayer({ showPlayer }: MediaPlayerProps) {
   const {
     containerRef,
     play,
@@ -38,104 +43,87 @@ export default function MediaPlayer() {
   const togglePlay = () => (isPlaying ? pause() : play());
 
   return (
-    <>
-      {/* Player container bottom-left */}
-      <div className="absolute bottom-4 left-4 w-64 flex flex-col p-4 bg-slate-900/70 border border-slate-700/40 backdrop-blur-md rounded-2xl text-white">
-        {/* Song Info */}
-        <div className="flex flex-col gap-0.5">
-          <div className="text-sm font-semibold truncate">
-            {currentSong?.songName || "No song playing"}
-          </div>
-          <div className="text-xs text-gray-400 truncate">
-            {currentSong?.songArtist || ""}
-          </div>
-        </div>
-
-        {/* Middle section: Progress + Controls */}
-        <div className="flex flex-col flex-1 justify-center mt-3">
-          {/* Progress + Timestamps */}
-          <div className="flex flex-col">
-            <input
-              type="range"
-              min={0}
-              max={duration || 0}
-              value={currentTime}
-              onChange={(e) => handleSeek(Number(e.target.value))}
-              className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-              style={{
-                background:
-                  duration > 0
-                    ? `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${
-                        (currentTime / duration) * 100
-                      }%, #6b7280 ${
-                        (currentTime / duration) * 100
-                      }%, #6b7280 100%)`
-                    : "#6b7280",
-              }}
-            />
-            <div className="flex justify-between text-[9px] text-gray-200 mt-1">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
-
-          {/* Playback + Volume */}
-          <div className="flex items-center gap-2 mt-3 w-full">
-            {/* Playback buttons */}
-            <div className="flex items-center gap-1 flex-[0.4] justify-center flex-shrink-0">
-              <button
-                onClick={prev}
-                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
-              >
-                <SkipBack size={14} color={ACCENT_COLOR} />
-              </button>
-              <button
-                onClick={togglePlay}
-                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
-              >
-                {isPlaying ? (
-                  <Pause size={14} color={ACCENT_COLOR} />
-                ) : (
-                  <Play size={14} color={ACCENT_COLOR} />
-                )}
-              </button>
-              <button
-                onClick={next}
-                className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow-lg rounded-md"
-              >
-                <SkipForward size={14} color={ACCENT_COLOR} />
-              </button>
+    <div
+      className={`absolute right-0 bottom-full mb-2 transition-all duration-500 ease-out transform
+  ${showPlayer ? "translate-y-0 opacity-100" : "-translate-y-10 opacity-0"}`}
+    >
+      <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 shadow-lg w-[calc(3*88px+2*8px)]">
+        <div className="flex items-center p-2 bg-slate-900/80 border border-slate-700/50 backdrop-blur-md rounded-xl text-white w-full gap-2">
+          <div className="flex flex-col flex-1 justify-between gap-1">
+            <div className="flex flex-col gap-0.5">
+              <div className="text-sm font-medium truncate leading-tight">
+                {currentSong?.songName || "No song playing"}
+              </div>
+              <div className="text-[10px] text-gray-400 truncate leading-snug">
+                {currentSong?.songArtist || ""}
+              </div>
             </div>
 
-            {/* Volume control */}
-            <div className="flex items-center gap-2 flex-[0.6] min-w-0">
-              <button className="flex-shrink-0 p-1.5 group">
-                {volume === 0 ? (
-                  <VolumeX
-                    size={14}
-                    className="text-gray-400 group-hover:text-[#60A5FA] transition-colors duration-200"
-                  />
-                ) : (
-                  <Volume2 size={14} className="text-[#60A5FA]" />
-                )}
-              </button>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={volume}
-                onChange={(e) => handleVolumeChange(Number(e.target.value))}
-                className="flex-1 h-1.5 rounded-full appearance-none cursor-pointer min-w-0"
-                style={{
-                  background: `linear-gradient(to right, ${ACCENT_COLOR} 0%, ${ACCENT_COLOR} ${volume}%, #6b7280 ${volume}%, #6b7280 100%)`,
-                }}
+            <div className="flex items-center justify-start mt-1 mb-1 gap-2">
+              <div className="flex items-center gap-1">
+                <button
+                  className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow rounded-md hover:bg-slate-700/80 transition-colors"
+                  onClick={prev}
+                >
+                  <SkipBack size={14} color={ACCENT_COLOR} />
+                </button>
+                <button
+                  className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow rounded-md hover:bg-slate-700/80 transition-colors"
+                  onClick={togglePlay}
+                >
+                  {isPlaying ? (
+                    <Pause size={14} color={ACCENT_COLOR} />
+                  ) : (
+                    <Play size={14} color={ACCENT_COLOR} />
+                  )}
+                </button>
+                <button
+                  className="p-1.5 bg-slate-800/80 border border-slate-600/60 shadow rounded-md hover:bg-slate-700/80 transition-colors"
+                  onClick={next}
+                >
+                  <SkipForward size={14} color={ACCENT_COLOR} />
+                </button>
+              </div>
+
+              <div className="flex items-center gap-1 w-32 ml-0.5">
+                <button className="flex-shrink-0 p-1 group">
+                  {volume === 0 ? (
+                    <VolumeX
+                      size={14}
+                      className="text-gray-400 group-hover:text-[#60A5FA] transition-colors duration-200"
+                    />
+                  ) : (
+                    <Volume2 size={14} className="text-[#60A5FA]" />
+                  )}
+                </button>
+                <Slider
+                  className="h-2"
+                  defaultValue={[volume]}
+                  max={100}
+                  onValueChange={(value) =>
+                    handleVolumeChange(Number(value[0]))
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col mt-auto">
+              <div className="flex justify-between text-[10px] text-gray-300 mb-1">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(duration)}</span>
+              </div>
+              <Slider
+                className="h-2"
+                value={[currentTime]}
+                max={duration || 0}
+                onValueChange={(value) => handleSeek(Number(value[0]))}
               />
             </div>
           </div>
-        </div>
 
-        <div ref={containerRef}></div>
+          <div ref={containerRef}></div>
+        </div>
       </div>
-    </>
+    </div>
   );
 }
