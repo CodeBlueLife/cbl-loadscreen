@@ -19,6 +19,15 @@ createBuilder(
   },
   [
     {
+      name: "server",
+      options: {
+        platform: "node",
+        target: ["node22"],
+        format: "cjs",
+        dropLabels: [...dropLabels, "$CLIENT"],
+      },
+    },
+    {
       name: "client",
       options: {
         platform: "browser",
