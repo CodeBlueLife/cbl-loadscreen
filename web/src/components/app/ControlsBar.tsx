@@ -6,7 +6,7 @@ interface ControlsBarProps {
   togglePlayer: () => void;
 }
 
-export default function ControlsBar({
+export function ControlsBar({
   showPlayer,
   togglePlayer,
 }: ControlsBarProps) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function LoadingProgress() {
+export function LoadingProgress() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {

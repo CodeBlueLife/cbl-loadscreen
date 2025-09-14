@@ -13,7 +13,7 @@ interface MediaPlayerProps {
   showPlayer: boolean;
 }
 
-export default function MediaPlayer({ showPlayer }: MediaPlayerProps) {
+export function MediaPlayer({ showPlayer }: MediaPlayerProps) {
   const {
     containerRef,
     play,
