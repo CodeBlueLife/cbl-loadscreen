@@ -14,7 +14,7 @@ export function SidebarHeader() {
             Code<span className="text-blue-400">Blue</span>Life
           </h1>
           <p className="text-slate-300 text-base font-medium">
-            Welcome, <span className="text-blue-400">Placeholder</span>!
+            Welcome, <span className="text-blue-400">GravityExploitz</span>!
           </p>
         </div>
       </div>
@@ -24,7 +24,7 @@ export function SidebarHeader() {
           variant="outline"
           className="border-green-500/50 text-green-400 bg-slate-800/30"
         >
-          Total Playtime: 40h 55m
+          Total Playtime: 9d 4h 35m
         </Badge>
       </div>
     </div>
