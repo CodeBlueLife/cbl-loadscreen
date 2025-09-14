@@ -41,34 +41,25 @@ export function ScrollableChangelog() {
   ]);
 
   return (
-    <div className="flex-1 p-6 overflow-y-auto space-y-3 scrollbar-custom">
+    <div className="flex-1 p-6 overflow-y-auto space-y-3 scrollbar-thin scrollbar-track-slate-800/50 scrollbar-thumb-slate-600/80 hover:scrollbar-thumb-slate-500/80">
+      <h2 className="text-xl font-semibold text-white mb-6">Recent Updates</h2>
+
       <style>{`
-    /* Chrome, Edge, Safari */
-    .scrollbar-custom::-webkit-scrollbar {
-      width: 10px; /* Thicker scrollbar */
-    }
-    .scrollbar-custom::-webkit-scrollbar-button {
-      display: none; /* Remove arrows */
-    }
-    .scrollbar-custom::-webkit-scrollbar-track {
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 5px;
-    }
-    .scrollbar-custom::-webkit-scrollbar-thumb {
-      background: rgba(71, 85, 105, 0.8);
-      border-radius: 5px;
-    }
-    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-      background: rgba(96, 165, 250, 0.8);
-    }
-
-    /* Firefox */
-    .scrollbar-custom {
-      scrollbar-width: thin; /* Firefox only supports 'auto', 'thin', or 'none' */
-      scrollbar-color: rgba(71,85,105,0.8) rgba(30,41,59,0.5);
-    }
-  `}</style>
-
+                          .scrollbar-thin::-webkit-scrollbar {
+                            width: 6px;
+                          }
+                          .scrollbar-track-slate-800\\/50::-webkit-scrollbar-track {
+                            background: rgba(30, 41, 59, 0.5);
+                            border-radius: 3px;
+                          }
+                          .scrollbar-thumb-slate-600\\/80::-webkit-scrollbar-thumb {
+                            background: rgba(71, 85, 105, 0.8);
+                            border-radius: 3px;
+                          }
+                          .hover\\:scrollbar-thumb-slate-500\\/80::-webkit-scrollbar-thumb:hover {
+                            background: rgba(100, 116, 139, 0.8);
+                          }
+                        `}</style>
       {changelog.map((update, index) => (
         <div
           key={index}
