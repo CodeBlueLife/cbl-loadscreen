@@ -6,19 +6,25 @@ interface ControlsBarProps {
   togglePlayer: () => void;
 }
 
-export function ControlsBar({
-  showPlayer,
-  togglePlayer,
-}: ControlsBarProps) {
+export function ControlsBar({ showPlayer, togglePlayer }: ControlsBarProps) {
   return (
     <div className="absolute right-0 top-1/2 transform -translate-y-2/3 flex gap-2 z-20">
       <ControlButton
         onClick={togglePlayer}
         active={showPlayer}
         icon={<Music size={20} />}
+        tooltip="Toggle Music Player"
       />
-      <ControlButton icon={<Keyboard size={20} />} label="Keybinds" />
-      <ControlButton icon={<Eye size={20} />} label="Hide All" />
+      <ControlButton
+        icon={<Keyboard size={20} />}
+        label="Keybinds"
+        tooltip="View Keybinds"
+      />
+      <ControlButton
+        icon={<Eye size={20} />}
+        label="Hide All"
+        tooltip="Hide All UI"
+      />
     </div>
   );
 }
