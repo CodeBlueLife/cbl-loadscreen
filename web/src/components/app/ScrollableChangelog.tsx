@@ -20,24 +20,6 @@ export function ScrollableChangelog() {
         "More changes...",
       ],
     },
-    {
-      version: "vX.X.X",
-      date: "YYYY-MM-DD",
-      changes: [
-        "Change description...",
-        "Another change...",
-        "More changes...",
-      ],
-    },
-    {
-      version: "vX.X.X",
-      date: "YYYY-MM-DD",
-      changes: [
-        "Change description...",
-        "Another change...",
-        "More changes...",
-      ],
-    },
   ]);
 
   return (
