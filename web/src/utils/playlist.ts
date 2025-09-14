@@ -7,7 +7,11 @@ export interface Song {
 export let playlist: Song[] = [];
 
 const defaultPlaylist: Song[] = [
-  { songArtist: "Unknown Artist", songName: "Placeholder Song", songURL: "" },
+  {
+    songArtist: "Lady Gaga, Bruno Mars",
+    songName: "Die With A Smile",
+    songURL: "https://www.youtube.com/watch?v=kPa7bsKwL-c",
+  },
 ];
 
 function isValidSong(item: any): item is Song {
