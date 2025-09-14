@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { ControlsBar, LoadingProgress, MediaPlayer } from "./components/app";
+import {
+  ControlsBar,
+  LoadingProgress,
+  MediaPlayer,
+  ScrollableChangelog,
+  SidebarHeader,
+} from "./components/app";
 import backgroundVideo from "../LoadingMovie.mp4";
 
 export default function App() {
@@ -18,6 +24,10 @@ export default function App() {
       />
       <div className="absolute inset-0 bg-black/40" />
       <div className="relative z-10 flex min-h-screen">
+        <div className="w-96 bg-slate-900/80 backdrop-blur-sm border-r border-slate-700/50 flex flex-col h-screen">
+          <SidebarHeader />
+          <ScrollableChangelog />
+        </div>
         <div className="flex-1 relative">
           <div className="absolute bottom-10 w-full flex justify-center">
             <div className="relative w-[80%] max-w-[1000px]">
