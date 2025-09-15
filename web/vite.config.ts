@@ -9,6 +9,7 @@ export default defineConfig({
   build: {
     outDir: "../dist/web",
     emptyOutDir: true,
+    sourcemap: false,
     rollupOptions: {
       output: {
         assetFileNames: "assets/[name][extname]",
@@ -16,6 +17,10 @@ export default defineConfig({
         chunkFileNames: "assets/[name].js",
       },
     },
+    cssCodeSplit: true,
+    assetsInlineLimit: 4096,
+    chunkSizeWarningLimit: 1000,
+    reportCompressedSize: true,
   },
   resolve: {
     alias: {
