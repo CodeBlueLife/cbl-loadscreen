@@ -59,9 +59,11 @@ export function ScrollableChangelog() {
             {update.changes.map((change, changeIndex) => (
               <li
                 key={changeIndex}
-                className="text-slate-300 text-sm flex items-start gap-3"
+                className="text-slate-300 text-sm flex items-start"
               >
-                <span className="text-blue-400 mt-1 font-bold">•</span>
+                <span className="text-blue-400 font-bold w-4 flex-shrink-0">
+                  •
+                </span>
                 <span className="leading-relaxed">{change}</span>
               </li>
             ))}
