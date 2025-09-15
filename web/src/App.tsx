@@ -6,7 +6,7 @@ import {
   ScrollableChangelog,
   SidebarHeader,
 } from "./components/app";
-import backgroundVideo from "../LoadingMovie.mp4";
+import backgroundVideo from "../LoadingMovie.webm";
 
 export default function App() {
   const [showPlayer, setShowPlayer] = useState(false);
@@ -19,7 +19,7 @@ export default function App() {
         loop
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
       <div className="absolute inset-0 bg-black/40" />
