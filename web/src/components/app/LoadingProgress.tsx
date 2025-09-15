@@ -1,20 +1,34 @@
 import { useEffect, useState } from "react";
+import { isEnvBrowser } from "../../utils/misc";
 
 export function LoadingProgress() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => (prev < 100 ? prev + 1 : prev));
-    }, 200);
-    return () => clearInterval(interval);
+    // Temporary: using window message listener for load progress.
+    // Will switch to useNuiEvent hook soon.
+    if (isEnvBrowser()) {
+      const interval = setInterval(() => {
+        setProgress((prev) => (prev < 100 ? prev + 1 : prev));
+      }, 200);
+      return () => clearInterval(interval);
+    }
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.eventName === "loadProgress") {
+        setProgress(event.data.loadFraction * 100);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
     <div className="flex flex-col w-full">
       <div className="mb-2 opacity-0 animate-fadeIn">
         <span className="text-2xl font-semibold text-white tracking-wide">
-          LOADING... {progress}%
+          LOADING... {Math.round(progress)}%
         </span>
         <span className="text-xs text-slate-400 block mt-0.5 relative -top-0.5">
           PRESS SPACE TO PAUSE MUSIC
