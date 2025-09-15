@@ -8,7 +8,7 @@ interface Profile {
 
 export function SidebarHeader() {
   const [profile, setProfile] = useState<Profile>({
-    username: "Username",
+    username: "N/A",
     playtime: "N/A",
   });
 
@@ -37,7 +37,7 @@ export function SidebarHeader() {
             Code<span className="text-blue-400">Blue</span>Life
           </h1>
           <p className="text-slate-300 text-base font-medium">
-            Welcome, {profile.username || "Username"}!
+            Welcome, {profile.username}!
           </p>
         </div>
       </div>
@@ -47,7 +47,7 @@ export function SidebarHeader() {
           variant="outline"
           className="border-green-500/50 text-green-400 bg-slate-800/30"
         >
-          Total Playtime: {profile.playtime || "N/A"}
+          Total Playtime: {profile.playtime}
         </Badge>
       </div>
     </div>
