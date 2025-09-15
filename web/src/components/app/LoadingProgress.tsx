@@ -16,7 +16,7 @@ export function LoadingProgress() {
         <span className="text-2xl font-semibold text-white tracking-wide">
           LOADING... {progress}%
         </span>
-        <span className="text-xs text-slate-400 block mt-1">
+        <span className="text-xs text-slate-400 block mt-0.5 relative -top-0.5">
           PRESS SPACE TO PAUSE MUSIC
         </span>
       </div>
