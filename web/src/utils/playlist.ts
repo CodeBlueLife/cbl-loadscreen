@@ -1,3 +1,5 @@
+import config from "../../config.json";
+
 export interface Song {
   songArtist: string;
   songName: string;
@@ -5,14 +7,6 @@ export interface Song {
 }
 
 export let playlist: Song[] = [];
-
-const defaultPlaylist: Song[] = [
-  {
-    songArtist: "Lady Gaga, Bruno Mars",
-    songName: "Die With A Smile",
-    songURL: "https://www.youtube.com/watch?v=kPa7bsKwL-c",
-  },
-];
 
 function isValidSong(item: any): item is Song {
   return (
@@ -22,35 +16,18 @@ function isValidSong(item: any): item is Song {
   );
 }
 
-export async function loadPlaylist(): Promise<Song[]> {
+export function loadPlaylist(): Song[] {
   try {
-    // NOTE: The resource name is currently hardcoded here.
-    // Ideally, this should be dynamic. Will fix later.
-    const response = await fetch(`nui://loadscreen/static/config.json`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    const loadedSongs = Array.isArray(data?.playlist)
+    const data = config;
+    playlist = Array.isArray(data?.playlist)
       ? data.playlist.filter(isValidSong)
       : [];
-
-    if (loadedSongs.length === 0) {
-      console.warn(
-        "No valid songs found in config.json, using default playlist"
-      );
-      playlist = defaultPlaylist;
-    } else {
-      playlist = loadedSongs;
-    }
   } catch (err) {
     console.error(
       "Failed to load playlist:",
       err instanceof Error ? err.message : err
     );
-    playlist = defaultPlaylist;
+    playlist = [];
   }
 
   return playlist;
