@@ -1,4 +1,4 @@
-import config from "../../config.json";
+import { isEnvBrowser } from "./misc";
 
 export interface Song {
   songArtist: string;
@@ -16,9 +16,18 @@ function isValidSong(item: any): item is Song {
   );
 }
 
-export function loadPlaylist(): Song[] {
+export async function loadPlaylist(): Promise<Song[]> {
   try {
-    const data = config;
+    // NOTE: The resource name is currently hardcoded here.
+    // Ideally, this should be dynamic. Will fix later.
+    const url = isEnvBrowser()
+      ? "/config.json"
+      : "nui://loadscreen/dist/web/config.json";
+
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Failed to fetch config.json");
+
+    const data = await res.json();
     playlist = Array.isArray(data?.playlist)
       ? data.playlist.filter(isValidSong)
       : [];
