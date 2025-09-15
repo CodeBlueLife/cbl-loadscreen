@@ -12,7 +12,7 @@ export default function App() {
   const [showPlayer, setShowPlayer] = useState(false);
 
   return (
-    <div className="relative w-full h-screen bg-black">
+    <div className="relative w-full h-screen bg-black select-none">
       <video
         src={backgroundVideo}
         autoPlay
