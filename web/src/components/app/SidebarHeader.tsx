@@ -1,6 +1,29 @@
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
+interface Profile {
+  username?: string;
+  playtime?: string;
+}
+
 export function SidebarHeader() {
+  const [profile, setProfile] = useState<Profile>({
+    username: "Username",
+    playtime: "N/A",
+  });
+
+  useEffect(() => {
+    if (window.nuiHandoverData) {
+      if (window.nuiHandoverData.profile) {
+        setProfile(window.nuiHandoverData.profile);
+      } else {
+        console.warn("[SidebarHeader] No profile in nuiHandoverData");
+      }
+    } else {
+      console.warn("[SidebarHeader] nuiHandoverData not found");
+    }
+  }, []);
+
   return (
     <div className="p-8 border-b border-slate-700/50 flex-shrink-0">
       <div className="flex items-center gap-4 mb-2">
@@ -14,7 +37,7 @@ export function SidebarHeader() {
             Code<span className="text-blue-400">Blue</span>Life
           </h1>
           <p className="text-slate-300 text-base font-medium">
-            Welcome, <span className="text-blue-400">GravityExploitz</span>!
+            Welcome, {profile.username || "Username"}!
           </p>
         </div>
       </div>
@@ -24,7 +47,7 @@ export function SidebarHeader() {
           variant="outline"
           className="border-green-500/50 text-green-400 bg-slate-800/30"
         >
-          Total Playtime: 9d 4h 35m
+          Total Playtime: {profile.playtime || "N/A"}
         </Badge>
       </div>
     </div>
