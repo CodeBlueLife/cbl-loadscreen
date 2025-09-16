@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useYouTubeAudio } from "../../hooks/useYouTubeAudio";
 import {
   Volume2,
@@ -10,15 +9,11 @@ import {
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 
-export function MediaPlayer() {
-  const [visible, setVisible] = useState(false);
+interface MediaPlayerProps {
+  hidden?: boolean;
+}
 
-  useEffect(() => {
-    // trigger enter transition after mount
-    const t = setTimeout(() => setVisible(true), 10);
-    return () => clearTimeout(t);
-  }, []);
-
+export function MediaPlayer({ hidden }: MediaPlayerProps) {
   const {
     containerRef,
     play,
@@ -50,11 +45,11 @@ export function MediaPlayer() {
 
   return (
     <div
-      className={`absolute right-0 bottom-full mb-2 transition-all duration-500 ease-out transform
+      className={`absolute right-0 bottom-full mb-2 transition-all duration-300 ease-out transform
         ${
-          visible
-            ? "translate-y-0 opacity-100 scale-100"
-            : "-translate-y-10 opacity-0 scale-95"
+          hidden
+            ? "opacity-0 pointer-events-none -translate-y-4 scale-95"
+            : "opacity-100 translate-y-0 scale-100"
         }`}
     >
       <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 rounded-xl p-4 shadow-lg w-[calc(3*88px+2*8px)]">

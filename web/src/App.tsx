@@ -38,7 +38,7 @@ export default function App() {
                 activePanel={activePanel}
                 setActivePanel={setActivePanel}
               />
-              {activePanel === "music" && <MediaPlayer />}
+              <MediaPlayer hidden={activePanel !== "music"} />
               {activePanel === "keyboard" && <KeyboardPopup />}
             </div>
           </div>
