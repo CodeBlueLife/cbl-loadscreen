@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ActivePanel } from "@/components/app";
 import {
   ControlsBar,
@@ -12,6 +12,12 @@ import backgroundVideo from "../LoadingMovie.webm";
 
 export default function App() {
   const [activePanel, setActivePanel] = useState<ActivePanel>(null);
+  const [fadeIn, setFadeIn] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setFadeIn(true), 50);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <div className="relative w-full h-screen bg-black select-none">
@@ -22,9 +28,15 @@ export default function App() {
         muted
         playsInline
         preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className={`absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${
+          fadeIn ? "opacity-100" : "opacity-0"
+        }`}
       />
-      <div className="absolute inset-0 bg-black/40" />
+      <div
+        className={`absolute inset-0 bg-black/40 transition-opacity duration-1000 ${
+          fadeIn ? "opacity-40" : "opacity-100"
+        }`}
+      />
       <div className="relative z-10 flex min-h-screen">
         <div className="w-96 bg-slate-900/80 backdrop-blur-sm border-r border-slate-700/50 flex flex-col h-screen">
           <SidebarHeader />
