@@ -69,7 +69,7 @@ jobs:
       # Bundle files into a zip
       - name: Bundle files
         run: |
-          zip -r ${{ github.event.repository.name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lock" "./package.json" "./biome.json"
+          zip -r ${{ github.event.repository.name }}.zip . -x "./.*" "./node_modules/*" "./scripts/*" "./src/*" "./web/*" "./tsconfig.json" "./bun.lock" "./components.json" "./package.json" "./biome.json"
 
       # Create release using the zip
       - name: Create Release
