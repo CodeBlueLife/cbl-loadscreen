@@ -1,15 +1,17 @@
 import { useState } from "react";
+import type { ActivePanel } from "@/components/app";
 import {
   ControlsBar,
+  KeyboardPopup,
   LoadingProgress,
   MediaPlayer,
   ScrollableChangelog,
   SidebarHeader,
-} from "./components/app";
+} from "@/components/app";
 import backgroundVideo from "../LoadingMovie.webm";
 
 export default function App() {
-  const [showPlayer, setShowPlayer] = useState(false);
+  const [activePanel, setActivePanel] = useState<ActivePanel>(null);
 
   return (
     <div className="relative w-full h-screen bg-black select-none">
@@ -33,10 +35,11 @@ export default function App() {
             <div className="relative w-[80%] max-w-[1000px]">
               <LoadingProgress />
               <ControlsBar
-                showPlayer={showPlayer}
-                togglePlayer={() => setShowPlayer((p) => !p)}
+                activePanel={activePanel}
+                setActivePanel={setActivePanel}
               />
-              <MediaPlayer showPlayer={showPlayer} />
+              {activePanel === "music" && <MediaPlayer />}
+              {activePanel === "keyboard" && <KeyboardPopup />}
             </div>
           </div>
         </div>
