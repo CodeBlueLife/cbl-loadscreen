@@ -1,7 +1,7 @@
 import { Eye, Keyboard, Music } from "lucide-react";
 import ControlButton from "./ControlButton";
 
-type ActivePanel = "music" | "keyboard" | "hidden" | null;
+export type ActivePanel = "music" | "keyboard" | "hidden" | null;
 
 interface ControlsBarProps {
   activePanel: ActivePanel;
