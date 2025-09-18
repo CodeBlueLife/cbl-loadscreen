@@ -1,5 +1,7 @@
 import * as fs from "fs";
 
+SetConvarReplicated('sv_showBusySpinnerOnLoadingScreen', '0')
+
 function readFile(filePath: string): string | null {
   try {
     return fs.readFileSync(filePath, "utf-8");
