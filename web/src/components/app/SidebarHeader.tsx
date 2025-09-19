@@ -16,11 +16,7 @@ export function SidebarHeader() {
     if (window.nuiHandoverData) {
       if (window.nuiHandoverData.profile) {
         setProfile(window.nuiHandoverData.profile);
-      } else {
-        console.warn("[SidebarHeader] No profile in nuiHandoverData");
-      }
-    } else {
-      console.warn("[SidebarHeader] nuiHandoverData not found");
+      } 
     }
   }, []);
 
