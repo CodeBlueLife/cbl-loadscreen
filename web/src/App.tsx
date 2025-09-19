@@ -20,7 +20,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative w-full h-screen bg-black select-none">
+    <div className="relative w-full h-screen bg-black">
       <video
         src={backgroundVideo}
         autoPlay
